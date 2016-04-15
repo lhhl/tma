@@ -1,0 +1,134 @@
+{"packed":[
+	{
+		"Name" : "Quản lý",
+		"Sort" : "2",
+		"Modules" : [{
+				"Name" : "Sản phẩm",
+				"Version" : "1.0.1",
+				"Template" : "management/products",
+				"Status" : "0",
+				"Permission" : "access_products",
+				"Readonly" : "0"
+			},
+			{
+				"Name" : "Hóa đơn",
+				"Version" : "1.0.2",
+				"Template" : "management/bills",
+				"Status" : "1",
+				"Permission" : "access_bills",
+				"Readonly" : "0"
+			},
+			{
+				"Name" : "Khách hàng",
+				"Version" : "2.1.3",
+				"Template" : "management/customers",
+				"Status" : "0",
+				"Permission" : "access_customers",
+				"Readonly" : "0"
+			}]
+	},
+
+	{
+		"Name" : "Hóa đơn mới",
+		"Sort" : "1",
+		"Modules" : [{
+				"Name" : "Nhập / Xuất hàng",
+				"Version" : "1.0.1",
+				"Template" : "new_bill/importexport",
+				"Status" : "1",
+				"Permission" : "access_importexport",
+				"Readonly" : "0"
+			},
+			{
+				"Name" : "Bán hàng",
+				"Version" : "1.0.2",
+				"Template" : "new_bill/sale",
+				"Status" : "1",
+				"Permission" : "access_sale",
+				"Readonly" : "0"
+			},
+			{
+				"Name" : "Trả hàng",
+				"Version" : "2.1.3",
+				"Template" : "new_bill/return",
+				"Status" : "1",
+				"Permission" : "access_return",
+				"Readonly" : "0"
+			},
+			{
+				"Name" : "Ký gửi",
+				"Version" : "2.1.3",
+				"Template" : "new_bill/deposit",
+				"Status" : "1",
+				"Permission" : "access_deposit",
+				"Readonly" : "0"
+			}]
+	},
+
+	{
+		"Name" : "Báo cáo",
+		"Sort" : "3",
+		"Modules" : [{
+				"Name" : "Sản phẩm",
+				"Version" : "1.4.1",
+				"Template" : "report/products",
+				"Status" : "1",
+				"Permission" : "access_products_report",
+				"Readonly" : "0"
+			},
+			{
+				"Name" : "Doanh thu",
+				"Version" : "2.0.2",
+				"Template" : "report/revenue",
+				"Status" : "1",
+				"Permission" : "access_revenue",
+				"Readonly" : "0"
+			},
+			{
+				"Name" : "Nhập / Xuất hàng",
+				"Version" : "2.1.3",
+				"Template" : "report/importexport",
+				"Status" : "1",
+				"Permission" : "access_importexport_report",
+				"Readonly" : "0"
+			}]
+	},
+
+	{
+		"Name" : "Cấu hình",
+		"Permission" : "access_report",
+		"Modules" : [{
+				"Name" : "Cài đặt",
+				"Version" : "1.4.1",
+				"Template" : "configuration/setting",
+				"Status" : "1",
+				"Permission" : "access_setting",
+				"Readonly" : "1"
+			},
+			{
+				"Name" : "Sao lưu",
+				"Version" : "2.0.2",
+				"Template" : "configuration/backup",
+				"Status" : "1",
+				"Permission" : "access_backup",
+				"Readonly" : "1"
+			},
+			{
+				"Name" : "Thông tin",
+				"Version" : "2.1.3",
+				"Template" : "configuration/information",
+				"Status" : "1",
+				"Permission" : "access_information",
+				"Readonly" : "1"
+			},
+			{
+				"Name" : "Cập nhật",
+				"Version" : "2.4.3",
+				"Template" : "configuration/update",
+				"Status" : "1",
+				"Permission" : "access_update",
+				"Readonly" : "1"
+			}]
+	}
+	
+]}

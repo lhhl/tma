@@ -1,0 +1,5 @@
+name = Hóa đơn;
+version = 1.0.1;
+url = management/bills;
+readonly = 0;
+packed = Quản lý;

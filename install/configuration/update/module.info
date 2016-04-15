@@ -1,0 +1,5 @@
+name = Cập nhật;
+version = 1.0.2;
+url = configuration/update;
+readonly = 1;
+packed = Cấu hình;

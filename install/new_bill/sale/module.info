@@ -1,0 +1,5 @@
+name = Bán hàng;
+version = 1.5.1;
+url = new_bill/sale;
+readonly = 0;
+packed = Hóa đơn mới;

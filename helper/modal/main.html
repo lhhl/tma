@@ -1,0 +1,23 @@
+<div ng-controller="modal_helper" class="container-fluid">
+
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog {{modal_size}}">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <p ng-bind-html="modal_title | unsafe"></p>
+      </div>
+      <div class="modal-body">
+        <p ng-bind-html="modal_content | unsafe"></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+</div>

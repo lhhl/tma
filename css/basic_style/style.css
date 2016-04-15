@@ -1,0 +1,15 @@
+body {
+  width: 100%;
+  padding-top: 55px; }
+
+#main-menu {
+  background-color: #f2f2f2; }
+
+table {
+  border: 1px solid #dadada; }
+  table td {
+    padding: 4px;
+    border: 1px solid #dadada;
+    vertical-align: middle !important; }
+
+/*# sourceMappingURL=style.css.map */
