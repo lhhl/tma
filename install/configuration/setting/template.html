@@ -1,0 +1,38 @@
+<div class="table-responsive" ng-controller="setting_controller" style="padding: 10px">
+
+	<div class="well well-lg">
+	<p style="font-size: 20px; font-weight: bold"><span class="
+glyphicon glyphicon-th-large"></span>
+		<select style="padding: 10px;padding-left: 40px; padding-right: 40px">
+			<option>Hóa đơn</option>	
+		</select>
+	</p>
+		<table class="table table-bordered">
+			<thead>
+				<tr>
+					<th>STT</th>
+					<th>Tên cài đặt</th>
+					<th>Giá trị</th>
+				</tr>
+			</thead>
+			<tr>
+				<td style="width: 5%">1</td>
+				<td style="width: 20%">Cài đặt boolean</td>
+				<td style="width: 20%"><input type="checkbox"> Có <input type="checkbox"> Không</td>
+			</tr>
+			<tr>
+				<td style="width: 5%">2</td>
+				<td style="width: 20%">Cài đặt value</td>
+				<td style="width: 20%"><input type="text"></td>
+			</tr>
+			<tr>
+				<td style="width: 5%">3</td>
+				<td style="width: 20%">Cài đặt text</td>
+				<td style="width: 20%"><textarea></textarea></td>
+			</tr>
+		</table>
+	</div>
+
+	<div style="text-align: center"><button ng-click="save_setting()" class="btn btn-success">Lưu thay đổi</button></div>
+
+</div>

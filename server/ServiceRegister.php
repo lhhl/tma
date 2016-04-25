@@ -29,8 +29,52 @@ class ServiceRegister
 		return mysqli_fetch_all($this->db->getData( 'permission' ), MYSQLI_ASSOC);
 	}
 
+	function getpackedmodule($data = array()){
+
+		$this->updateInfoModule();
+		$packed = $this->getPacked();
+		if(count($data)<=0) {
+			$module = $this->getModule();
+		}else
+		{
+			if($data[0] == 1){
+				$module = $this->getModuleAvailable();
+			}else
+			{
+				$module = $this->getModule();
+			}
+		}
+		
+		$res = array();
+		foreach ( $packed as $k1 => $v1 ) {
+			$packed[$k1]['modules'] = array();
+			foreach ( $module as $k2 => $v2 ) {
+				if( $v2['packed_id'] == $v1['packed_id'] ){
+					$arr = array(
+						"ID" => $v2['module_id'],
+						"Name" => $v2['module_name'],
+						"Version" => $v2['module_version'],
+						"Template" => $v2['module_template'],
+						"Status" => $v2['module_status'],
+						"Status" => $v2['module_status'],
+						"Permission" => $v2['permission_id'],
+						"Readonly" => $v2['module_readonly']
+					);
+					array_push($packed[$k1]['modules'],$arr);
+				}
+
+
+			}
+			if(count($packed[$k1]['modules'])>0){
+				array_push($res, $packed[$k1]);
+			}
+		}
+		return $res;
+	}
+
 	function updateInfoModule(){
 		$data = $this->script->get_content_file_info();
+
 		//$data = str_replace(' ','',$data);
 		$data = str_replace(PHP_EOL,'',$data);
 		$info = array();
@@ -84,7 +128,7 @@ class ServiceRegister
 					'module_version' => $value['version'],
 					'permission_id' => '1',
 					'packed_id' => $packed_id,
-					'module_status' => '0', 
+					'module_status' => $value['readonly'] == '1' ? '1' : '0', 
 					'module_sort' => '0', 
 					'module_template' => $value['url'], 
 					'module_readonly' => $value['readonly'], 
@@ -100,68 +144,27 @@ class ServiceRegister
 			}
 		}//End Foreach
 		//print_r(array_unique($dir_packed)).'   ';
-		//print_r($dir_module);
+		
 		foreach ($db_packed_name as $value) {
 			if(!in_array($value, array_unique($dir_packed_name))){
 				$this->db->deleteData( 'packed', array( 'packed_name' => $value ) );
 			}
 		}
-
+		
 		foreach ($db_module_name as $value) {
 			if(!in_array($value, array_unique($dir_module_name))){
 				$this->db->deleteData( 'module', array( 'module_name' => $value ) );
 			}
 		}
-
 	}
-
 	function merge_script(){
 		$this->script->generate_script();
 	}
+	
 
-	function getpackedmodule($data = array()){
-
-		$this->updateInfoModule();
-		$packed = $this->getPacked();
-		if(count($data)<=0) {
-			$module = $this->getModule();
-		}else
-		{
-			if($data[0] == 1){
-				$module = $this->getModuleAvailable();
-			}else
-			{
-				$module = $this->getModule();
-			}
-		}
+	function savechangemodule(){
 		
-		$res = array();
-		foreach ( $packed as $k1 => $v1 ) {
-			$packed[$k1]['modules'] = array();
-			foreach ( $module as $k2 => $v2 ) {
-				if( $v2['packed_id'] == $v1['packed_id'] ){
-					$arr = array(
-						"ID" => $v2['module_id'],
-						"Name" => $v2['module_name'],
-						"Version" => $v2['module_version'],
-						"Template" => $v2['module_template'],
-						"Status" => $v2['module_status'],
-						"Status" => $v2['module_status'],
-						"Permission" => $v2['permission_id'],
-						"Readonly" => $v2['module_readonly']
-					);
-					array_push($packed[$k1]['modules'],$arr);
-				}
-
-
-			}
-			if(count($packed[$k1]['modules'])>0){
-				array_push($res, $packed[$k1]);
-			}
-		}
-		return $res;
 	}
 
-	
 }
 ?>

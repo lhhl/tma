@@ -12,4 +12,11 @@ table {
     border: 1px solid #dadada;
     vertical-align: middle !important; }
 
+#title-tab .glyphicon-remove {
+  font-size: 10px;
+  margin-left: 10px;
+  cursor: pointer; }
+  #title-tab .glyphicon-remove:hover {
+    font-weight: bolder; }
+
 /*# sourceMappingURL=style.css.map */

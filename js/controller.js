@@ -50,35 +50,65 @@ try {
 
 try {
 
-	app . controller( 'my_app_controller', [ '$rootScope', '$scope', '$http' , function(  $rootScope, $scope, $http ){		
+	app . controller( 'my_app_controller', [ '$rootScope', '$scope', '$http', 'config', '$compile',  function(  $rootScope, $scope, $http, config, $compile ){		
 	//--------------------
 	$scope . main_load = 'main_load.html';
 	//--------------------
 
-	$http({
-		 method : 'GET',
-		 url : 'http://localhost/SMA/service.php',
-		 params : { action : 'getpackedmodule', p1 : '1' },
-		 headers: {'Content-Type': undefined}
-	}) . then( function(response){
-		$scope . packed =  response . data . result;
-	});
+	//---------------------
+	var conf = config.prepare( 'GET', SERVICE_SERVER, ['getpackedmodule', '1'], undefined );
+	$http( conf ) . then( function( response ){
+		$scope . packed = response . data . result;
+		$scope . get_content( 'configuration/update', 'Cập nhật' );
 
-	$scope . get_content = function( arg ){
-		$scope . content = 'install/' + arg + '/main.html';
+	});
+	//-------------------
+	$scope . closeItemTab = function(event){
+		//alert(angular . element(event.currentTarget) .parents('a') . attr('href'));
+		angular . element(event.currentTarget) . parents('li') .remove();
+		var id_content = angular . element(event.currentTarget) .parents('a') . attr('href');
+		angular . element(id_content) . remove();
+		angular . element( '#title-tab li' ) . last() . addClass( 'active' );
+		id_content = angular . element( '#title-tab li' ) . last() . children() . attr('href');
+		angular . element( '#content-tab ' + id_content ) . addClass( ' in active' );
+		//alert(angular . element( '#content-tab ' + id_content ) . html());
 	};
 
-	
-		
-}]);
+	//--------------------
+	$scope . getmachinename = function( temp_url ){
+		var arr = temp_url . split('/');
+		return arr[1];
+	};
 
-app . factory('get_data', function( $http ){
-	var a = '';
-    $http . get( 'install/packed.json' ) . then( function( response ){
-		a = response . data . packed;
-	});
-	return a;
-});
+	//--------------------
+	var i = 0;
+	$scope . get_content = function( temp_url, name ){
+		//==============Remove active=================
+		angular . element( '#title-tab li' ) . removeClass( 'active' );
+		angular . element( '#content-tab div' ) . removeClass( 'in active' );
+
+		//==============Load Item===================
+		
+		var arr = temp_url . split('/');
+
+		var template_file = "'" + PACKED_DIR + temp_url + '/' + TEMPLATE_FILE + "'";
+		var title = '<li class="active"><a data-toggle="tab" href="#' + arr[1] + i + '">' + name + '<span class="glyphicon glyphicon-remove" ng-click="closeItemTab($event)"></span></a></li>';
+		var content = '<div id="' + arr[1]  + i + '" class="tab-pane fade in active"><h3>' + name + '</h3><div ng-include="' + template_file + '"></div></div>';
+		
+
+		var comp = $compile(title)($scope);
+		angular . element( '#title-tab' ) . append( comp );
+
+		comp = $compile(content)($scope);
+		angular . element( '#content-tab' ) . append( comp );
+		//$scope . content = PACKED_DIR + temp_url + '/' + TEMPLATE_FILE;
+		i++;
+
+		
+	};
+	//--------------------
+
+}]);
 
 }catch(err){
 	 alert( 'Error from js/init.js : ' + err.message );
@@ -86,11 +116,26 @@ app . factory('get_data', function( $http ){
 
 //------------END js/init.js------------
 
+//------------BEGIN install/configuration/setting/main.js------------
+
+try {
+
+	app . controller('setting_controller', ['$rootScope', '$scope', '$http', 'config',  function( $rootScope, $scope, $http, config ){
+	
+	
+}]);
+
+}catch(err){
+	 alert( 'Error from install/configuration/setting/main.js : ' + err.message );
+}
+
+//------------END install/configuration/setting/main.js------------
+
 //------------BEGIN install/configuration/update/main.js------------
 
 try {
 
-	app . controller('update_controller', ['$rootScope', '$scope', '$http',  function( $rootScope, $scope, $http ){
+	app . controller('update_controller', ['$rootScope', '$scope', '$http', 'config',  function( $rootScope, $scope, $http, config ){
 	
 	$scope . update_export_checkbox = function( checked, disabled, id )
 	{
@@ -105,7 +150,7 @@ try {
 			val += 'disabled=disabled';
 		}
 
-		var ex_html = '<input value="'+ id +'" type="checkbox" '+ val +'>';
+		var ex_html = '<input class = "ckbox_display" idmod="'+ id +'" type="checkbox" '+ val +'>';
 		return ex_html;
 	}
 
@@ -118,46 +163,46 @@ try {
 		}
 	}
 
-	$http({
-		 method : 'GET',
-		 url : 'http://localhost/SMA/service.php',
-		 params : { action : 'getpackedmodule' },
-		 headers: {'Content-Type': undefined}
-	}) . then( function(response){
-		$scope . update_packed =  response . data . result;
+	var conf = config.prepare( 'GET', SERVICE_SERVER, ['getpackedmodule'], undefined );
+	$http( conf ) . then( function( response ){
+		$scope . update_packed = response . data . result;
 	});
 
-	$http({
-		 method : 'GET',
-		 url : 'http://localhost/SMA/service.php',
-		 params : { action : 'getPermission' },
-		 headers: {'Content-Type': undefined}
-	}) . then( function(response){
-		$scope . update_permission =  response . data . result;
+	
+	conf = config.prepare( 'GET', SERVICE_SERVER, ['getPermission'], undefined );
+	$http( conf ) . then( function( response ){
+		$scope . update_permission = response . data . result;
 	});
 
-
+	
 	$scope . refresh_code = function(){
-		$http({
-			 method : 'GET',
-			 url : 'http://localhost/SMA/service.php',
-			 params : { action : 'merge_script' },
-			 headers: {'Content-Type': undefined}
-		}) . then( function(response){
+
+		conf = config.prepare( 'GET', SERVICE_SERVER, ['merge_script'], undefined );
+		$http( conf ) . then( function( response ){
 			location.reload();
 		});
+		
 	}
 
 	$scope . refresh_module = function(){
-			$http({
-			 method : 'GET',
-			 url : 'http://localhost/SMA/service.php',
-			 params : { action : 'getpackedmodule' },
-			 headers: {'Content-Type': undefined}
-		}) . then( function(response){
-			$scope . update_packed =  response . data . result;
+		conf = config.prepare( 'GET', SERVICE_SERVER, ['getpackedmodule'], undefined );
+		$http( conf ) . then( function( response ){
+			$scope . update_packed = response . data . result;
 		});
-	} 
+	}
+
+	$scope . save_change = function(){
+		var arr = [];
+		angular . element( '.ckbox_display:checked' ) . each( function(){
+			arr.push( angular . element(this) . attr('idmod') );
+		});
+		
+		conf = config.prepare( 'POST', SERVICE_SERVER, ['savechangemodule', arr], 'application/json' );
+		alert(JSON.stringify(conf));
+		$http( conf ) . then( function( response ){
+			alert(JSON.stringify(response . data));
+		});			
+	}
 
 }]);
 

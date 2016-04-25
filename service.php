@@ -1,10 +1,10 @@
 <?php 
-
+require( 'setting.php' );
 
 if(isset($_GET['action'])){
-	require('ScriptGeneration.php');
-	require('DBLogic.php');
-	require('ServiceRegister.php');
+	require( CLASS_SERVER_DIR . 'ScriptGeneration.php' );
+	require( CLASS_SERVER_DIR . 'DBLogic.php' );
+	require( CLASS_SERVER_DIR . 'ServiceRegister.php' );
 
 	$service = new ServiceRegister();
 
@@ -20,9 +20,12 @@ if(isset($_GET['action'])){
 	$data = eval( 'return $service->' . $_GET['action'] . '($arr_para);');
 	header('Content-type: application/json; charset=utf-8');
 	echo json_encode(array("result"=>$data ), JSON_UNESCAPED_UNICODE);
+}else
+{
+	$post_data = file_get_contents('php://input');
+	$request = json_decode($post_data);
+	$data = eval( 'return $service->' . $_GET['action'] . '($arr_para);');
+	header('Content-type: application/json; charset=utf-8');
+	echo json_encode(array("result"=>$data ), JSON_UNESCAPED_UNICODE);
 }
-
-
-
-
 ?>

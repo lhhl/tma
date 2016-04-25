@@ -1,11 +1,4 @@
 <?php
-define( 'CUSTOM_PACKED_DIR', 'install' );
-define( 'SYSTEM_HELPER_DIR', 'helper' );
-define( 'MAIN_JS', '/main.js' );
-define( 'INIT_JS', 'js/init.js' );
-define( 'MODULE_INFO', '/module.info' );
-
-define( 'APP_CONTROLLER', 'js/controller.js' );
 /**
 * 
 */
@@ -101,6 +94,24 @@ class ScriptGeneration
 
 	//====================System====================
 
+	//====================Function====================
+
+
+	function merge_function(){
+		$module_arr = $this->get_custom_modules();
+		$data = '';
+		foreach ($module_arr as $module) {
+			
+			$data .= str_replace(array('<?php','?>','<?'), '', $this->read_file_get_data($module . FUNCTION_FILE, true));
+			
+		}
+		$init_function = $this->read_file_get_data(CONSTRUCT_LOADER, true);
+		return $init_function . $data . "\n}\n?>";
+	}
+
+	//====================Function====================
+
+
 	function generate_script(){
 		$sys_script = '';
 		
@@ -108,12 +119,15 @@ class ScriptGeneration
 		
 		$script_data = $this->add_wrap_comment('SYSTEM', $this->merge_script_system(), '=') . $sys_script . $this->merge_script_custom();
 
-		
-
 		$fp = @fopen(APP_CONTROLLER, "w+");
 		$d = fwrite($fp, $script_data);
 		fclose($fp);
 
+		//-------------------
+		$func_data = $this->merge_function();
+		$fp = @fopen(SERVICE_REGISTER_CLASS, "w+");
+		$d = fwrite($fp, $func_data);
+		fclose($fp);
 		
 		//echo 'Xong';
 	}

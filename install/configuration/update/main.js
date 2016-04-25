@@ -1,4 +1,4 @@
-app . controller('update_controller', ['$rootScope', '$scope', '$http',  function( $rootScope, $scope, $http ){
+app . controller('update_controller', ['$rootScope', '$scope', '$http', 'config',  function( $rootScope, $scope, $http, config ){
 	
 	$scope . update_export_checkbox = function( checked, disabled, id )
 	{
@@ -13,7 +13,7 @@ app . controller('update_controller', ['$rootScope', '$scope', '$http',  functio
 			val += 'disabled=disabled';
 		}
 
-		var ex_html = '<input value="'+ id +'" type="checkbox" '+ val +'>';
+		var ex_html = '<input class = "ckbox_display" idmod="'+ id +'" type="checkbox" '+ val +'>';
 		return ex_html;
 	}
 
@@ -26,45 +26,45 @@ app . controller('update_controller', ['$rootScope', '$scope', '$http',  functio
 		}
 	}
 
-	$http({
-		 method : 'GET',
-		 url : 'http://localhost/SMA/service.php',
-		 params : { action : 'getpackedmodule' },
-		 headers: {'Content-Type': undefined}
-	}) . then( function(response){
-		$scope . update_packed =  response . data . result;
+	var conf = config.prepare( 'GET', SERVICE_SERVER, ['getpackedmodule'], undefined );
+	$http( conf ) . then( function( response ){
+		$scope . update_packed = response . data . result;
 	});
 
-	$http({
-		 method : 'GET',
-		 url : 'http://localhost/SMA/service.php',
-		 params : { action : 'getPermission' },
-		 headers: {'Content-Type': undefined}
-	}) . then( function(response){
-		$scope . update_permission =  response . data . result;
+	
+	conf = config.prepare( 'GET', SERVICE_SERVER, ['getPermission'], undefined );
+	$http( conf ) . then( function( response ){
+		$scope . update_permission = response . data . result;
 	});
 
-
+	
 	$scope . refresh_code = function(){
-		$http({
-			 method : 'GET',
-			 url : 'http://localhost/SMA/service.php',
-			 params : { action : 'merge_script' },
-			 headers: {'Content-Type': undefined}
-		}) . then( function(response){
+
+		conf = config.prepare( 'GET', SERVICE_SERVER, ['merge_script'], undefined );
+		$http( conf ) . then( function( response ){
 			location.reload();
 		});
+		
 	}
 
 	$scope . refresh_module = function(){
-			$http({
-			 method : 'GET',
-			 url : 'http://localhost/SMA/service.php',
-			 params : { action : 'getpackedmodule' },
-			 headers: {'Content-Type': undefined}
-		}) . then( function(response){
-			$scope . update_packed =  response . data . result;
+		conf = config.prepare( 'GET', SERVICE_SERVER, ['getpackedmodule'], undefined );
+		$http( conf ) . then( function( response ){
+			$scope . update_packed = response . data . result;
 		});
-	} 
+	}
+
+	$scope . save_change = function(){
+		var arr = [];
+		angular . element( '.ckbox_display:checked' ) . each( function(){
+			arr.push( angular . element(this) . attr('idmod') );
+		});
+		
+		conf = config.prepare( 'POST', SERVICE_SERVER, ['savechangemodule', arr], 'application/json' );
+		alert(JSON.stringify(conf));
+		$http( conf ) . then( function( response ){
+			alert(JSON.stringify(response . data));
+		});			
+	}
 
 }]);

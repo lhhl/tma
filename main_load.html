@@ -6,7 +6,7 @@
 		      <li class="dropdown">
 		      	<a class="dropdown-toggle" data-toggle="dropdown" href="#">{{pack. packed_name}} <span class="caret"></span></a>
 		      	<ul class="dropdown-menu">
-		      		<li ng-repeat="(k, v) in pack.modules | orderBy: 'module_sort'"><a href="javascript:;" ng-click="get_content(v.Template)">{{v.Name}}</a></li>
+		      		<li id="{{getmachinename(v.Template)}}" ng-repeat="(k, v) in pack.modules | orderBy: 'module_sort'"><a href="javascript:;" ng-click="get_content(v.Template, v.Name)">{{v.Name}}</a></li>
 		      	</ul>
 		      </li>
 
@@ -23,9 +23,19 @@
 <div ng-include="'helper/alert/main.html'">
 	
 </div>
-<div ng-include="content">
-		
+
+<div>
+		<ul id="title-tab" class="nav nav-tabs">
+	  		
+		</ul>
+	<div class="container-fluid">
+		<div id="content-tab" class="tab-content">
+		 	
+		</div>
+	</div>
+
 </div>
+
 <div ng-include="'helper/modal/main.html'">
 	
 </div>

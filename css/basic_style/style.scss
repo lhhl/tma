@@ -23,3 +23,13 @@ table {
 	
 	
 }
+#title-tab {
+	& .glyphicon-remove{
+		font-size: 10px;
+		margin-left: 10px;
+		cursor: pointer;
+		&:hover {
+			font-weight: bolder;
+		}
+	}
+}
