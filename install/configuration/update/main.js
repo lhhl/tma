@@ -1,22 +1,5 @@
 app . controller('update_controller', ['$rootScope', '$scope', '$http', 'config',  function( $rootScope, $scope, $http, config ){
 	
-	$scope . update_export_checkbox = function( checked, disabled, id )
-	{
-		var val = '';
-		if( checked == 1 )
-		{
-			val += 'checked=checked ';
-		}
-
-		if( disabled == 1 )
-		{
-			val += 'disabled=disabled';
-		}
-
-		var ex_html = '<input class = "ckbox_display" idmod="'+ id +'" type="checkbox" '+ val +'>';
-		return ex_html;
-	}
-
 	$scope . selectOption = function( obj, id){
 		for( i=0;i<obj.length;i++ ){
 			if(obj[i].permission_id == id)
@@ -60,10 +43,10 @@ app . controller('update_controller', ['$rootScope', '$scope', '$http', 'config'
 			arr.push( angular . element(this) . attr('idmod') );
 		});
 		
-		conf = config.prepare( 'POST', SERVICE_SERVER, ['savechangemodule', arr], 'application/json' );
+		conf = config.prepare( 'POST', SERVICE_SERVER, ['savechangemodule', arr], undefined );
 		alert(JSON.stringify(conf));
 		$http( conf ) . then( function( response ){
-			alert(JSON.stringify(response . data));
+			alert(response . data);
 		});			
 	}
 

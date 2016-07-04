@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Developer</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+	<link rel="stylesheet" href="css/basic_style/style.css">
+	<script src="bower_components/jquery/dist/jquery.min.js"></script>
+	<script src="bower_components/angular/angular.min.js"></script>
+	<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+	<script src="js/app.js"></script>
+	<script src="js/component.js"></script>
+	<script src="js/devcontroller.js"></script>
+</head>
+<body ng-app="my_app">
+	<nav class="navbar navbar-default navbar-fixed-top" id="main-menu">
+		<div class="container-fluid">
+		<div class="navbar-header">
+           <a class="navbar-brand"><span class="glyphicon glyphicon-wrench"></span> DEVELOPER TOOLS</a>
+        </div>
+	</nav>
+
+
+
+	<ul id="title-tab" class="nav nav-tabs">
+	  	<li class="active"><a data-toggle="tab" href="#update">Cập nhật</a></li>
+	  	<li><a data-toggle="tab" href="#testservice">Service</a></li>	
+	</ul>
+	<div class="container-fluid">
+		<div id="content-tab" class="tab-content">
+		 	<div id="update" class="tab-pane fade in active"><h3>Cập nhật hệ thống</h3><div ng-include="'developer/update.html'"></div></div>
+		 	
+		 	<div id="testservice" class="tab-pane fade"><h3>Kiểm tra service</h3><div ng-include="'developer/testservice.html'"></div></div>
+		</div>		
+	</div>
+
+</body>
+</html>

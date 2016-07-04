@@ -12,16 +12,21 @@ app . controller( 'my_app_controller', [ '$rootScope', '$scope', '$http', 'confi
 	});
 	//-------------------
 	$scope . closeItemTab = function(event){
-		//alert(angular . element(event.currentTarget) .parents('a') . attr('href'));
-		angular . element(event.currentTarget) . parents('li') .remove();
-		var id_content = angular . element(event.currentTarget) .parents('a') . attr('href');
-		angular . element(id_content) . remove();
-		angular . element( '#title-tab li' ) . last() . addClass( 'active' );
-		id_content = angular . element( '#title-tab li' ) . last() . children() . attr('href');
-		angular . element( '#content-tab ' + id_content ) . addClass( ' in active' );
-		//alert(angular . element( '#content-tab ' + id_content ) . html());
-	};
+		var cur_element = angular . element(event.currentTarget);
+		var prev_element = cur_element . parents('li') . prev();
+		
 
+		cur_element . parents('li') .remove();
+		var id_content = cur_element . parents('a') . attr('href');
+		angular . element(id_content) . remove();
+
+		if( cur_element . parents('li') . attr( 'class' ) . search( 'active' ) != -1 ){
+			prev_element . addClass( 'active' );
+			id_content = prev_element . children() . attr('href');
+			angular . element( '#content-tab ' + id_content ) . addClass( ' in active' );	
+		}
+		
+	};
 	//--------------------
 	$scope . getmachinename = function( temp_url ){
 		var arr = temp_url . split('/');
@@ -41,7 +46,7 @@ app . controller( 'my_app_controller', [ '$rootScope', '$scope', '$http', 'confi
 
 		var template_file = "'" + PACKED_DIR + temp_url + '/' + TEMPLATE_FILE + "'";
 		var title = '<li class="active"><a data-toggle="tab" href="#' + arr[1] + i + '">' + name + '<span class="glyphicon glyphicon-remove" ng-click="closeItemTab($event)"></span></a></li>';
-		var content = '<div id="' + arr[1]  + i + '" class="tab-pane fade in active"><h3>' + name + '</h3><div ng-include="' + template_file + '"></div></div>';
+		var content = '<div id="' + arr[1]  + i + '" class="tab-pane fade in active"><h3>' + name +i+ '</h3><div ng-include="' + template_file + '"></div></div>';
 		
 
 		var comp = $compile(title)($scope);

@@ -1,5 +1,4 @@
 <div class="table-responsive" ng-controller="update_controller" style="padding: 10px">
-
 	<div class="well well-lg" ng-repeat="p in update_packed  | orderBy : 'Sort'"><p style="font-size: 20px; font-weight: bold"><span class="
 glyphicon glyphicon-th-large"></span> {{p.packed_name}} </p>
 		<table class="table table-bordered">
@@ -20,18 +19,17 @@ glyphicon glyphicon-th-large"></span> {{p.packed_name}} </p>
 				<td style="width: 10%">{{v.Version}}</td>
 				<td style="width: 20%">{{v.Template}}/template.html</td>
 				<td style="width: 15%">
-					<select>
-						<option ng-selected="v.Permission==per.permission_id" ng-repeat="per in update_permission" value="{{per.permission_id}}">{{per.permission_name}}</option>
+					<select ng-model="selectOption(update_permission,v.Permission)" ng-options="val.permission_name for (key,val) in update_permission track by val.permission_id">
 					</select>
 				</td>
-				<td style="width: 15%">
-					<input class="ckbox_display" idmod="{{v.ID}}" type="checkbox" ng-checked="v.Status==1">
+				<td style="width: 15%" ng-bind-html="update_export_checkbox(v.Status, v.Readonly, v.ID) | unsafe">
+					
 				</td>
 				<td style="width: 15%; color: green; font-size: 24px; cursor: pointer;"><span class="glyphicon glyphicon-upload"></span> <span class="glyphicon glyphicon-download"></span></td>
 			</tr>
 		</table>
 	</div>
 
-	<div style="text-align: center"><button ng-click="save_change()" class="btn btn-success">Lưu thay đổi</button> <button ng-click="refresh_module()" class="btn btn-primary">Làm mới module</button></div>
+	<div style="text-align: center"><button ng-click="save_change()" class="btn btn-default">Lưu thay đổi</button> <button ng-click="refresh_code()" class="btn btn-default">Làm mới script</button> <button ng-click="refresh_module()" class="btn btn-default">Làm mới module</button></div>
 
 </div>

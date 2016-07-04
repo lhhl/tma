@@ -64,16 +64,21 @@ try {
 	});
 	//-------------------
 	$scope . closeItemTab = function(event){
-		//alert(angular . element(event.currentTarget) .parents('a') . attr('href'));
-		angular . element(event.currentTarget) . parents('li') .remove();
-		var id_content = angular . element(event.currentTarget) .parents('a') . attr('href');
-		angular . element(id_content) . remove();
-		angular . element( '#title-tab li' ) . last() . addClass( 'active' );
-		id_content = angular . element( '#title-tab li' ) . last() . children() . attr('href');
-		angular . element( '#content-tab ' + id_content ) . addClass( ' in active' );
-		//alert(angular . element( '#content-tab ' + id_content ) . html());
-	};
+		var cur_element = angular . element(event.currentTarget);
+		var prev_element = cur_element . parents('li') . prev();
+		
 
+		cur_element . parents('li') .remove();
+		var id_content = cur_element . parents('a') . attr('href');
+		angular . element(id_content) . remove();
+
+		if( cur_element . parents('li') . attr( 'class' ) . search( 'active' ) != -1 ){
+			prev_element . addClass( 'active' );
+			id_content = prev_element . children() . attr('href');
+			angular . element( '#content-tab ' + id_content ) . addClass( ' in active' );	
+		}
+		
+	};
 	//--------------------
 	$scope . getmachinename = function( temp_url ){
 		var arr = temp_url . split('/');
@@ -93,7 +98,7 @@ try {
 
 		var template_file = "'" + PACKED_DIR + temp_url + '/' + TEMPLATE_FILE + "'";
 		var title = '<li class="active"><a data-toggle="tab" href="#' + arr[1] + i + '">' + name + '<span class="glyphicon glyphicon-remove" ng-click="closeItemTab($event)"></span></a></li>';
-		var content = '<div id="' + arr[1]  + i + '" class="tab-pane fade in active"><h3>' + name + '</h3><div ng-include="' + template_file + '"></div></div>';
+		var content = '<div id="' + arr[1]  + i + '" class="tab-pane fade in active"><h3>' + name +i+ '</h3><div ng-include="' + template_file + '"></div></div>';
 		
 
 		var comp = $compile(title)($scope);
@@ -137,23 +142,6 @@ try {
 
 	app . controller('update_controller', ['$rootScope', '$scope', '$http', 'config',  function( $rootScope, $scope, $http, config ){
 	
-	$scope . update_export_checkbox = function( checked, disabled, id )
-	{
-		var val = '';
-		if( checked == 1 )
-		{
-			val += 'checked=checked ';
-		}
-
-		if( disabled == 1 )
-		{
-			val += 'disabled=disabled';
-		}
-
-		var ex_html = '<input class = "ckbox_display" idmod="'+ id +'" type="checkbox" '+ val +'>';
-		return ex_html;
-	}
-
 	$scope . selectOption = function( obj, id){
 		for( i=0;i<obj.length;i++ ){
 			if(obj[i].permission_id == id)
@@ -197,10 +185,10 @@ try {
 			arr.push( angular . element(this) . attr('idmod') );
 		});
 		
-		conf = config.prepare( 'POST', SERVICE_SERVER, ['savechangemodule', arr], 'application/json' );
+		conf = config.prepare( 'POST', SERVICE_SERVER, ['savechangemodule', arr], undefined );
 		alert(JSON.stringify(conf));
 		$http( conf ) . then( function( response ){
-			alert(JSON.stringify(response . data));
+			alert(response . data);
 		});			
 	}
 

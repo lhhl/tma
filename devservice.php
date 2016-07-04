@@ -2,10 +2,10 @@
 require( 'setting.php' );
 require( CLASS_SERVER_DIR . 'ScriptGeneration.php' );
 require( CLASS_SERVER_DIR . 'DBLogic.php' );
-require( CLASS_SERVER_DIR . 'ServiceRegister.php' );
+require( CLASS_SERVER_DIR . 'DevServiceRegister.php' );
 
 if(isset($_GET['action'])){
-	$service = new ServiceRegister();
+	$service = new DevServiceRegister();
 
 	$query = $_SERVER['QUERY_STRING'];
 	$arr_query_str = explode('&',$query);
@@ -33,7 +33,7 @@ if(isset($_GET['action'])){
 	}
 	$str_para .= ');';
 	//echo $str_para;
-	$service = new ServiceRegister();
+	$service = new DevServiceRegister();
 	$data = eval( 'return $service->' . $str_para);
 	header('Content-type: application/json; charset=utf-8');
 	echo json_encode(array("result"=>$data ), JSON_UNESCAPED_UNICODE);

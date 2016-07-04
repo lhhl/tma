@@ -1,5 +1,6 @@
 const BASE_URL = window.location.origin + '/tma/';
 const SERVICE_SERVER = BASE_URL + 'service.php';
+const DEV_SERVICE_SERVER = BASE_URL + 'devservice.php';
 const TEMPLATE_FILE = 'template.html';
 const PACKED_DIR = 'install/';
 

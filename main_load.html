@@ -1,22 +1,31 @@
 <nav class="navbar navbar-default navbar-fixed-top" id="main-menu">
 	<div class="container-fluid">
-		
-			<ul class="nav navbar-nav" ng-repeat="pack in packed | orderBy: 'packed_sort'">
+		<div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#menu">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+           <a class="navbar-brand">TOTAL MANAGEMENT APPLICATION</a>
+        </div>
+
+        <div class="navbar-collapse collapse" id="menu">
+			<ul class="nav navbar-nav navbar-right" ng-repeat="pack in packed | orderBy: 'packed_sort'">
 
 		      <li class="dropdown">
-		      	<a class="dropdown-toggle" data-toggle="dropdown" href="#">{{pack. packed_name}} <span class="caret"></span></a>
+		      	<a class="dropdown-toggle" data-toggle="dropdown" href="#">
+
+		      	{{pack. packed_name}} <span class="caret"></span></a>
 		      	<ul class="dropdown-menu">
 		      		<li id="{{getmachinename(v.Template)}}" ng-repeat="(k, v) in pack.modules | orderBy: 'module_sort'"><a href="javascript:;" ng-click="get_content(v.Template, v.Name)">{{v.Name}}</a></li>
 		      	</ul>
 		      </li>
 
 		    </ul>
+		</div>
 
-
-		    <ul class="nav navbar-nav navbar-right">
-		    	<li style="font-size: 24px"><a href="#">STORE NAME</a></li>
-		    </ul>
-			
+		    
 </div>
 </nav>
 
